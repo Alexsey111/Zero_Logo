@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор логотипов</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 30px;
+        }
+        h1 {
+            color: #4a4a4a;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+        .form-label {
+            color: #555;
+            font-weight: 600;
+        }
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #6c63ff;
+            box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6c63ff 0%, #4a4a4a 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 99, 255, 0.4);
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3em;
+        }
+        .result {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .result img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">🎨 Генератор логотипов</h1>
+
+        <div class="card">
+            <form method="post" onsubmit="showLoader()">
+                <div class="form-group">
+                    <label for="forma" class="form-label">Форма:</label>
+                    <input type="text" class="form-control" id="forma" name="forma" required placeholder="Например: круг, квадрат, звезда">
+                </div>
+                <div class="form-group">
+                    <label for="style" class="form-label">Стиль:</label>
+                    <input type="text" class="form-control" id="style" name="style" required placeholder="Например: минимализм, ретро, 3D">
+                </div>
+                <div class="form-group">
+                    <label for="description" class="form-label">Описание:</label>
+                    <input type="text" class="form-control" id="description" name="description" required placeholder="Что должно изображать логотип?">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Сгенерировать логотип</button>
+            </form>
+
+            <div id="loading" class="loading">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Загрузка...</span>
+                </div>
+                <p class="mt-3">Генерируем ваш логотип... Это может занять до 30 секунд.</p>
+            </div>
+
+            {% if image %}
+                <div id="result" class="result">
+                    <h2 class="text-dark">✅ Сгенерированный логотип:</h2>
+                    <img src="{{ image }}" alt="Generated Logo" class="img-fluid">
+                    <a href="{{ image }}" download class="btn btn-outline-primary mt-3">Скачать изображение</a>
+                </div>
+            {% elif error %}
+                <div id="result" class="error">
+                    ❌ {{ error }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showLoader() {
+            document.getElementById('loading').style.display = 'block';
+            const resultDiv = document.getElementById('result');
+            if (resultDiv) {
+                resultDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
